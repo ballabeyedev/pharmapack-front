@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { login } from '../../services/auth.service';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+
 
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
@@ -355,7 +356,9 @@ export default function Login() {
             </div>
 
             <div className="field-row">
-              <a href="#" className="forgot-link">Mot de passe oublié ?</a>
+                <Link to="/forgot-password" className="forgot-link">
+                    Mot de passe oublié ?
+                </Link>
             </div>
 
             <button type="submit" className="btn-submit" disabled={loading}>

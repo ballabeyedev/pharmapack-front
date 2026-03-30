@@ -146,10 +146,14 @@ export default function ProduitsPage() {
         <div style={{ display:'grid',
           gridTemplateColumns:'repeat(auto-fill, minmax(220px, 1fr))', gap:'16px' }}>
           {Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} style={{ background:'#fff', borderRadius:'16px', padding:'20px',
-              height:'200px',
-              background:'linear-gradient(90deg,#f0faf5 25%,#e0f2ec 50%,#f0faf5 75%)',
-              backgroundSize:'200% 100%', animation:'shimmer 1.4s infinite' }} />
+            <div key={i} style={{ 
+                borderRadius:'16px', 
+                padding:'20px',
+                height:'200px',
+                background:'linear-gradient(90deg,#f0faf5 25%,#e0f2ec 50%,#f0faf5 75%)',
+                backgroundSize:'200% 100%', 
+                animation:'shimmer 1.4s infinite' 
+                }} />
           ))}
         </div>
       )}
