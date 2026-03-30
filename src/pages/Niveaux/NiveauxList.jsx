@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { C } from '../../components/Constant';
 import {
   getNiveaux,
   ajouterNiveau,
   modifierNiveau,
-  supprimerNiveau
+  supprimerNiveau,
 } from '../../services/admin.service';
 
 const Icon = ({ d, size = 18, stroke = 'currentColor' }) => (
@@ -16,7 +16,7 @@ const Icon = ({ d, size = 18, stroke = 'currentColor' }) => (
 
 const Toast = ({ msg, type }) => (
   <div style={{ position:'fixed', bottom:'28px', right:'28px', zIndex:1000,
-    background: type === 'error' ? C.danger : C.greenDeep,
+    background: type === 'error' ? '#dc2626' : C.greenDeep,
     color:'#fff', padding:'12px 22px', borderRadius:'14px',
     fontSize:'0.875rem', fontWeight:600, boxShadow:'0 8px 32px rgba(0,0,0,0.18)',
     animation:'fadeUp 0.3s ease both' }}>
@@ -79,24 +79,24 @@ export default function NiveauxList() {
   const [form,     setForm]     = useState({ nom:'', description:'', points_requis:'', remise:'' });
   const [toast,    setToast]    = useState(null);
 
-  const showToast = (msg, type='success') => {
+  const showToast = useCallback((msg, type = 'success') => {
     setToast({ msg, type });
     setTimeout(() => setToast(null), 3000);
-  };
+  }, []);
 
-  const load = async () => {
+  const load = useCallback(async () => {
     try {
       setLoading(true);
       const res = await getNiveaux();
-        setNiveaux(res.niveaux || []);
+      setNiveaux(res.niveaux || []);
     } catch {
       showToast('Erreur lors du chargement', 'error');
     } finally {
       setLoading(false);
     }
-  };
+  }, [showToast]);
 
-  useEffect(() => { load(); }, []);
+  useEffect(() => { load(); }, [load]);
 
   const filtered = niveaux.filter(n =>
     n.nom?.toLowerCase().includes(search.toLowerCase())
@@ -104,8 +104,8 @@ export default function NiveauxList() {
 
   const emptyForm = { nom:'', description:'', points_requis:'', remise:'' };
   const openAdd  = () => { setForm(emptyForm); setModal('add'); };
-  const openEdit = (n)  => { setSelected(n); setForm({ nom: n.nom, description: n.description || '', points_requis: n.points_requis || '', remise: n.remise || '' }); setModal('edit'); };
-  const openDel  = (n)  => { setSelected(n); setModal('delete'); };
+  const openEdit = (n) => { setSelected(n); setForm({ nom: n.nom, description: n.description || '', points_requis: n.points_requis || '', remise: n.remise || '' }); setModal('edit'); };
+  const openDel  = (n) => { setSelected(n); setModal('delete'); };
 
   const handleAdd = async () => {
     if (!form.nom.trim()) return showToast('Le nom est obligatoire', 'error');
@@ -113,7 +113,7 @@ export default function NiveauxList() {
       await ajouterNiveau(form);
       showToast('Niveau ajouté avec succès');
       setModal(null); load();
-    } catch { showToast('Erreur lors de l\'ajout', 'error'); }
+    } catch { showToast("Erreur lors de l'ajout", 'error'); }
   };
 
   const handleEdit = async () => {
@@ -240,7 +240,7 @@ export default function NiveauxList() {
                     <td style={td}>
                       {n.points_requis
                         ? <span style={{ padding:'3px 10px', borderRadius:'20px', fontSize:'0.75rem',
-                            fontWeight:700, color:C.info, background:C.infoPale }}>
+                            fontWeight:700, color:'#2563eb', background:'#dbeafe' }}>
                             {n.points_requis} pts
                           </span>
                         : <span style={{ color:C.textMuted }}>—</span>
@@ -260,7 +260,7 @@ export default function NiveauxList() {
                         <button onClick={() => openEdit(n)} style={actionBtn(C.greenPale, C.greenDeep)}>
                           <Icon d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" size={15} />
                         </button>
-                        <button onClick={() => openDel(n)} style={actionBtn(C.dangerPale, C.danger)}>
+                        <button onClick={() => openDel(n)} style={actionBtn('#fee2e2', '#dc2626')}>
                           <Icon d="M3 6h18M19 6l-1 14H6L5 6M10 11v6M14 11v6M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2" size={15} />
                         </button>
                       </div>
@@ -315,7 +315,7 @@ export default function NiveauxList() {
           <div style={{ display:'flex', gap:'10px', justifyContent:'flex-end' }}>
             <button onClick={() => setModal(null)} style={btnSecondary}>Annuler</button>
             <button onClick={handleDelete}
-              style={{ ...btnPrimary, background:`linear-gradient(135deg,${C.danger},#ef4444)` }}>
+              style={{ ...btnPrimary, background:'linear-gradient(135deg,#dc2626,#ef4444)' }}>
               Supprimer
             </button>
           </div>

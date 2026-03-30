@@ -5,9 +5,6 @@ import { getStatistiqueAdmin } from '../../services/admin.service';
 /* ─────────────────────────────────────────────
    Helpers
 ───────────────────────────────────────────── */
-const fmt = (n) =>
-  new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'XOF', maximumFractionDigits: 0 }).format(n ?? 0);
-
 const Icon = ({ d, size = 20, stroke = 'currentColor' }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none"
     stroke={stroke} strokeWidth={1.9} strokeLinecap="round" strokeLinejoin="round">

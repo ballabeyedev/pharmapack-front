@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { C } from '../../components/Constant';
 import { getPharmacies } from '../../services/admin.service';
 
@@ -146,25 +146,24 @@ export default function PharmaciesPage() {
   const [selected,      setSelected]      = useState(null);
   const [toast,         setToast]         = useState(null);
 
-  const showToast = (msg, type = 'success') => {
+  const showToast = useCallback((msg, type = 'success') => {
     setToast({ msg, type });
     setTimeout(() => setToast(null), 3200);
-  };
+  }, []);
 
-  const load = async () => {
+  const load = useCallback(async () => {
     try {
       setLoading(true);
       const data = await getPharmacies();
-      // Backend retourne { message, pharmacies }
       setPharmacies(data.pharmacies || []);
     } catch {
       showToast('Erreur lors du chargement des pharmacies', 'error');
     } finally {
       setLoading(false);
     }
-  };
+  }, [showToast]);
 
-  useEffect(() => { load(); }, []);
+  useEffect(() => { load(); }, [load]);
 
   /* ── Filtrage ── */
   const filtered = pharmacies.filter(p => {

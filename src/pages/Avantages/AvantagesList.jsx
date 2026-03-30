@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { C } from '../../components/Constant';
 import { getAvantages } from '../../services/admin.service';
-
 
 /* ── helpers ── */
 const fmt = (n) => new Intl.NumberFormat('fr-FR', { style:'currency', currency:'XOF', maximumFractionDigits:0 }).format(n ?? 0);
@@ -62,25 +61,24 @@ export default function AvantagesPage() {
   const [filterStatut, setFilterStatut] = useState('all');
   const [toast,        setToast]        = useState(null);
 
-  const showToast = (msg, type = 'success') => {
+  const showToast = useCallback((msg, type = 'success') => {
     setToast({ msg, type });
     setTimeout(() => setToast(null), 3200);
-  };
+  }, []);
 
-  const load = async () => {
+  const load = useCallback(async () => {
     try {
       setLoading(true);
       const data = await getAvantages();
-      // Le service retourne { message, avantages }
       setAvantages(data.avantages || []);
     } catch {
       showToast('Erreur lors du chargement des avantages', 'error');
     } finally {
       setLoading(false);
     }
-  };
+  }, [showToast]);
 
-  useEffect(() => { load(); }, []);
+  useEffect(() => { load(); }, [load]);
 
   /* ── Données filtrées ── */
   const filtered = avantages.filter(a => {
@@ -90,10 +88,8 @@ export default function AvantagesPage() {
   });
 
   /* ── KPI ── */
-  const totalAll   = avantages.reduce((s, a) => s + (a.montant ?? 0), 0);
-  const totalDispo = avantages.filter(a => a.statut === 'disponible').reduce((s, a) => s + (a.montant ?? 0), 0);
-  const totalUsed  = avantages.filter(a => a.statut === 'utilisé').reduce((s, a) => s + (a.montant ?? 0), 0);
-  const nbActifs   = avantages.filter(a => a.statut === 'disponible').length;
+  const totalAll  = avantages.reduce((s, a) => s + (a.montant ?? 0), 0);
+  const nbActifs  = avantages.filter(a => a.statut === 'disponible').length;
 
   /* ── Résumé par pharmacie (via relation incluse) ── */
   const byPharmacy = Object.values(
@@ -153,10 +149,10 @@ export default function AvantagesPage() {
       {/* ── KPI cards ── */}
       <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit, minmax(160px, 1fr))', gap:'14px' }}>
         {[
-          { label:'Total accordé',    val: fmt(totalAll),   color:'#7c3aed', icon:'💰' },
-          { label:'Disponible',       val: fmt(totalDispo), color:C.greenMid, icon:'✅' },
-          { label:'Utilisé',          val: fmt(totalUsed),  color:'#6b7280', icon:'🔄' },
-          { label:'Avantages actifs', val: `${nbActifs}`,   color:'#d97706', icon:'⭐' },
+          { label:'Total accordé',    val: fmt(totalAll),                                                                                          color:'#7c3aed', icon:'💰' },
+          { label:'Disponible',       val: fmt(avantages.filter(a => a.statut === 'disponible').reduce((s, a) => s + (a.montant ?? 0), 0)),        color:C.greenMid, icon:'✅' },
+          { label:'Utilisé',          val: fmt(avantages.filter(a => a.statut === 'utilisé').reduce((s, a) => s + (a.montant ?? 0), 0)),           color:'#6b7280', icon:'🔄' },
+          { label:'Avantages actifs', val: `${nbActifs}`,                                                                                          color:'#d97706', icon:'⭐' },
         ].map(({ label, val, color, icon }, idx) => (
           <div key={label} style={{ background:'#fff', borderRadius:'16px', padding:'20px',
             boxShadow:'0 2px 10px rgba(13,92,58,0.07)', borderTop:`3px solid ${color}`,

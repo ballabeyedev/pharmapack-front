@@ -1,6 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { C } from '../../components/Constant';
-import { getCommandes } from '../../services/admin.service';
+import {
+  getCommandes,
+  validerCommande,
+  rejeterCommande,
+  livrerCommande,
+} from '../../services/admin.service';
 
 /* ─────────────────────────────────────────────
    Helpers
@@ -219,56 +224,52 @@ export default function CommandesList() {
   const [selected,      setSelected]      = useState(null);
   const [toast,         setToast]         = useState(null);
 
-  const showToast = (msg, type = 'success') => {
+  const showToast = useCallback((msg, type = 'success') => {
     setToast({ msg, type });
     setTimeout(() => setToast(null), 3200);
-  };
+  }, []);
 
-  const load = async () => {
+  const load = useCallback(async () => {
     try {
       setLoading(true);
       const data = await getCommandes();
-      // Backend retourne { message, commandes }
       setCommandes(data.commandes || []);
     } catch {
       showToast('Erreur lors du chargement des commandes', 'error');
     } finally {
       setLoading(false);
     }
-  };
+  }, [showToast]);
 
-  useEffect(() => { load(); }, []);
+  useEffect(() => { load(); }, [load]);
 
   /* ── Actions ── */
-  const handleValider = async (id) => {
+  const handleValider = useCallback(async (id) => {
     try {
-      const { validerCommande } = await import('../../services/admin.service');
       await validerCommande(id);
       showToast('Commande validée avec succès');
       setSelected(null);
       load();
     } catch { showToast('Erreur lors de la validation', 'error'); }
-  };
+  }, [showToast, load]);
 
-  const handleRejeter = async (id) => {
+  const handleRejeter = useCallback(async (id) => {
     try {
-      const { rejeterCommande } = await import('../../services/admin.service');
       await rejeterCommande(id);
       showToast('Commande rejetée');
       setSelected(null);
       load();
     } catch { showToast('Erreur lors du rejet', 'error'); }
-  };
+  }, [showToast, load]);
 
-  const handleLivrer = async (id) => {
+  const handleLivrer = useCallback(async (id) => {
     try {
-      const { livrerCommande } = await import('../../services/admin.service');
       await livrerCommande(id);
       showToast('Commande marquée comme livrée');
       setSelected(null);
       load();
     } catch { showToast('Erreur lors de la livraison', 'error'); }
-  };
+  }, [showToast, load]);
 
   /* ── Filtrage ── */
   const filtered = commandes.filter(c => {

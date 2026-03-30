@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { C } from '../../components/Constant';
 import {
   getCategories,
   ajouterCategorie,
   modifierCategorie,
-  supprimerCategorie
+  supprimerCategorie,
 } from '../../services/admin.service';
 
 /* ── helpers ── */
@@ -24,7 +24,7 @@ const Badge = ({ label, color = C.greenMid, bg = C.greenPale }) => (
 
 const Toast = ({ msg, type }) => (
   <div style={{ position:'fixed', bottom:'28px', right:'28px', zIndex:1000,
-    background: type === 'error' ? C.danger : C.greenDeep,
+    background: type === 'error' ? '#dc2626' : C.greenDeep,
     color:'#fff', padding:'12px 22px', borderRadius:'14px',
     fontSize:'0.875rem', fontWeight:600, boxShadow:'0 8px 32px rgba(0,0,0,0.18)',
     animation:'fadeUp 0.3s ease both' }}>
@@ -80,12 +80,12 @@ export default function CategoriesList() {
   const [form,       setForm]       = useState({ nom:'', description:'' });
   const [toast,      setToast]      = useState(null);
 
-  const showToast = (msg, type='success') => {
+  const showToast = useCallback((msg, type = 'success') => {
     setToast({ msg, type });
     setTimeout(() => setToast(null), 3000);
-  };
+  }, []);
 
-  const loadCategories = async () => {
+  const loadCategories = useCallback(async () => {
     try {
       setLoading(true);
       const res = await getCategories();
@@ -95,53 +95,47 @@ export default function CategoriesList() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [showToast]);
 
-  useEffect(() => { loadCategories(); }, []);
+  useEffect(() => { loadCategories(); }, [loadCategories]);
 
   const filtered = categories.filter(c =>
     c.nom?.toLowerCase().includes(search.toLowerCase()) ||
     c.description?.toLowerCase().includes(search.toLowerCase())
   );
 
-  const openAdd = () => { setForm({ nom:'', description:'' }); setModal('add'); };
-  const openEdit = (cat) => { setSelected(cat); setForm({ nom: cat.nom, description: cat.description || '' }); setModal('edit'); };
+  const openAdd    = () => { setForm({ nom:'', description:'' }); setModal('add'); };
+  const openEdit   = (cat) => { setSelected(cat); setForm({ nom: cat.nom, description: cat.description || '' }); setModal('edit'); };
   const openDelete = (cat) => { setSelected(cat); setModal('delete'); };
 
-const handleAdd = async () => {
-  if (!form.nom.trim()) return showToast('Le nom est obligatoire', 'error');
-  try {
-    await ajouterCategorie(form);
-    showToast('Catégorie ajoutée avec succès');
-    setModal(null);
-    loadCategories();
-  } catch {
-    showToast('Erreur lors de l\'ajout', 'error');
-  }
-};
+  const handleAdd = async () => {
+    if (!form.nom.trim()) return showToast('Le nom est obligatoire', 'error');
+    try {
+      await ajouterCategorie(form);
+      showToast('Catégorie ajoutée avec succès');
+      setModal(null);
+      loadCategories();
+    } catch { showToast("Erreur lors de l'ajout", 'error'); }
+  };
 
-const handleEdit = async () => {
-  if (!form.nom.trim()) return showToast('Le nom est obligatoire', 'error');
-  try {
-    await modifierCategorie(selected.id, form);
-    showToast('Catégorie modifiée avec succès');
-    setModal(null);
-    loadCategories();
-  } catch {
-    showToast('Erreur lors de la modification', 'error');
-  }
-};
+  const handleEdit = async () => {
+    if (!form.nom.trim()) return showToast('Le nom est obligatoire', 'error');
+    try {
+      await modifierCategorie(selected.id, form);
+      showToast('Catégorie modifiée avec succès');
+      setModal(null);
+      loadCategories();
+    } catch { showToast('Erreur lors de la modification', 'error'); }
+  };
 
-const handleDelete = async () => {
-  try {
-    await supprimerCategorie(selected.id);
-    showToast('Catégorie supprimée');
-    setModal(null);
-    loadCategories();
-  } catch {
-    showToast('Erreur lors de la suppression', 'error');
-  }
-};
+  const handleDelete = async () => {
+    try {
+      await supprimerCategorie(selected.id);
+      showToast('Catégorie supprimée');
+      setModal(null);
+      loadCategories();
+    } catch { showToast('Erreur lors de la suppression', 'error'); }
+  };
 
   return (
     <div style={{ fontFamily:'DM Sans, sans-serif' }}>
@@ -228,14 +222,14 @@ const handleDelete = async () => {
                     </span>
                   </td>
                   <td style={td}>
-                    <Badge label={new Date(cat.createdAt).toLocaleDateString('fr-FR')} />
+                    <Badge label={new Date(cat.created_at).toLocaleDateString('fr-FR')} />
                   </td>
                   <td style={td}>
                     <div style={{ display:'flex', gap:'8px' }}>
                       <button onClick={() => openEdit(cat)} style={actionBtn(C.greenPale, C.greenDeep)} title="Modifier">
                         <Icon d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" size={15} />
                       </button>
-                      <button onClick={() => openDelete(cat)} style={actionBtn(C.dangerPale, C.danger)} title="Supprimer">
+                      <button onClick={() => openDelete(cat)} style={actionBtn('#fee2e2', '#dc2626')} title="Supprimer">
                         <Icon d="M3 6h18M19 6l-1 14H6L5 6M10 11v6M14 11v6M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2" size={15} />
                       </button>
                     </div>
@@ -294,7 +288,7 @@ const handleDelete = async () => {
           <div style={{ display:'flex', gap:'10px', justifyContent:'flex-end' }}>
             <button onClick={() => setModal(null)} style={btnSecondary}>Annuler</button>
             <button onClick={handleDelete}
-              style={{ ...btnPrimary, background:`linear-gradient(135deg,${C.danger},#ef4444)` }}>
+              style={{ ...btnPrimary, background:'linear-gradient(135deg,#dc2626,#ef4444)' }}>
               Supprimer
             </button>
           </div>
