@@ -382,7 +382,7 @@ export const supprimerCategorie = async (id) => {
   }
 };
 
-/* ========================= NIVEAUX ========================= */
+/* ========================= NIVEAUX ========================= */ 
 
 export const getNiveaux = async () => {
   const name = "Liste Niveaux";
@@ -459,6 +459,129 @@ export const getStatistiqueAdmin = async () => {
     logResponse(name, res);
     return res.data;
 
+  } catch (error) {
+    logError(name, error);
+    throw error;
+  }
+};
+
+// ─────────────────────────────────────────────
+// ADMINS
+// ─────────────────────────────────────────────
+export const getAdmins = async () => {
+  const name = "Liste admins";
+  try {
+    logRequest(name);
+    const res = await api.get('/admin/liste-admin');
+    logResponse(name, res);
+    return res.data;
+  } catch (error) {
+    logError(name, error);
+    throw error;
+  }
+};
+
+export const creerAdmin = async (data) => {
+  const name = "Créer admin";
+  try {
+    logRequest(name, data);
+    const res = await api.post('/admin/ajout-admin', data);
+    logResponse(name, res);
+    return res.data;
+  } catch (error) {
+    logError(name, error);
+    throw error;
+  }
+};
+
+export const modifierAdmin = async (id, data) => {
+  const name = "Modifier admin";
+  try {
+    logRequest(name, { id, data });
+    const res = await api.put(`/admin/modifier-admin/${id}`, data);
+    logResponse(name, res);
+    return res.data;
+  } catch (error) {
+    logError(name, error);
+    throw error;
+  }
+};
+
+export const activerAdmin = async (id) => {
+  const name = "Activer admin";
+  try {
+    logRequest(name, { id });
+    const res = await api.put(`/admin/activer-admin/${id}`);
+    logResponse(name, res);
+    return res.data;
+  } catch (error) {
+    logError(name, error);
+    throw error;
+  }
+};
+
+export const desactiverAdmin = async (id) => {
+  const name = "Désactiver admin";
+  try {
+    logRequest(name, { id });
+    const res = await api.put(`/admin/desactiver-admin/${id}`);
+    logResponse(name, res);
+    return res.data;
+  } catch (error) {
+    logError(name, error);
+    throw error;
+  }
+};
+
+// ─────────────────────────────────────────────
+// PERMISSIONS
+// ─────────────────────────────────────────────
+export const getPermissions = async () => {
+  const name = "Liste permissions";
+  try {
+    logRequest(name);
+    const res = await api.get('/admin/liste-permissions');
+    logResponse(name, res);
+    return res.data;
+  } catch (error) {
+    logError(name, error);
+    throw error;
+  }
+};
+
+export const creerPermission = async (data) => {
+  const name = "Créer permission";
+  try {
+    logRequest(name, data);
+    const res = await api.post('/admin/ajout-permission', data);
+    logResponse(name, res);
+    return res.data;
+  } catch (error) {
+    logError(name, error);
+    throw error;
+  }
+};
+
+export const modifierPermission = async (id, data) => {
+  const name = "Modifier permission";
+  try {
+    logRequest(name, { id, data });
+    const res = await api.put(`/admin/modifier-permission/${id}`, data);
+    logResponse(name, res);
+    return res.data;
+  } catch (error) {
+    logError(name, error);
+    throw error;
+  }
+};
+
+export const supprimerPermission = async (id) => {
+  const name = "Supprimer permission";
+  try {
+    logRequest(name, { id });
+    const res = await api.delete(`/admin/supprimer-permission/${id}`);
+    logResponse(name, res);
+    return res.data;
   } catch (error) {
     logError(name, error);
     throw error;

@@ -10,6 +10,7 @@ const PAGE_TITLES = {
   profil:       'Profil administrateur',
   categories:   'Gestion des catégories',
   niveaux:      'Niveaux de fidélité',
+  admins:       'Gestion des administrateurs',
 };
 
 const Icon = ({ d, size = 20, stroke = 'currentColor' }) => (

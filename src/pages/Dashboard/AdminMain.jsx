@@ -9,6 +9,8 @@ import ProduitsPage      from '../Produits/ProduitList.jsx';
 import ProfilPage        from '../Profils/Profils.jsx';
 import CategoriesPage    from '../Categories/CategoriesList.jsx';
 import NiveauxPage       from '../Niveaux/NiveauxList.jsx';
+import AdminsPage       from '../Admin/AdminList.jsx';
+
 
 /* ── Logout modal ─────────────────────────────────────────── */
 const LogoutModal = ({ onCancel, onConfirm }) => (
@@ -65,6 +67,7 @@ export default function AdminDashboard() {
     profil:       <ProfilPage />,
     categories:   <CategoriesPage />,
     niveaux:      <NiveauxPage />,
+    admins:      <AdminsPage />, 
   };
 
   return (
