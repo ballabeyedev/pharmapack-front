@@ -587,3 +587,16 @@ export const supprimerPermission = async (id) => {
     throw error;
   }
 };
+
+export const modifierProfil = async (id, data) => {
+  const name = "Modifier permission";
+  try {
+    logRequest(name, { id, data });
+    const res = await api.put(`/admin/modifier-permission/${id}`, data);
+    logResponse(name, res);
+    return res.data;
+  } catch (error) {
+    logError(name, error);
+    throw error;
+  }
+}; 

@@ -74,7 +74,7 @@ export default function Navbar({ page, sidebarOpen, setSidebar, mobileSide, setM
             )}
           </div>
           <div className="hide-small">
-            <p style={{ fontSize: '0.8rem', fontWeight: 700, color: C.textDark, lineHeight: 1 }}>
+            <p style={{ fontSize: '0.9rem', fontWeight: 700, color: C.textDark, lineHeight: 1 }}>
               {user?.prenom || 'Utilisateur'} {user?.nom || ''}
             </p>
             <p style={{ fontSize: '0.67rem', color: C.textMuted, marginTop: '1px' }}>
