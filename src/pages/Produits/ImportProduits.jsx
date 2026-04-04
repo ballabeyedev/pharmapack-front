@@ -28,7 +28,7 @@ const COL_MAP = {
 /* Normalise une clé d'en-tête — enlève tout sauf lettres/chiffres */
 const normalizeKey = (key) =>
   (key || '').toString().trim().toLowerCase()
-    .replace(/[*★\s\/\-\(\)\.]+/g, '')
+    .replace(/[*★\s/().-]+/g, '')
     .replace(/_+/g, '');
 
 /* Trouve le nom de champ depuis un en-tête */
