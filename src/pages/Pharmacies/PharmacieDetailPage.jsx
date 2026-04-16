@@ -129,15 +129,15 @@ export default function PharmacieDetailPage() {
   }, []);
 
   /* Charger depuis l'API si pas de state */
-  useEffect(() => {
-    if (!pharmacie) {
-      setLoading(true);
-      getPharmacieById(id)
-        .then(data => setPharmacie(data.pharmacie || data))
-        .catch(() => showToast('Impossible de charger la pharmacie', 'error'))
-        .finally(() => setLoading(false));
-    }
-  }, [id]);
+useEffect(() => {
+  if (!pharmacie) {
+    setLoading(true);
+    getPharmacieById(id)
+      .then(data => setPharmacie(data.pharmacie || data))
+      .catch(() => showToast('Impossible de charger la pharmacie', 'error'))
+      .finally(() => setLoading(false));
+  }
+}, [id, pharmacie, showToast]);
 
   const handleConfirmAction = async () => {
     if (!confirm) return;
