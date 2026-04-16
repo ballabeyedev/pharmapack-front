@@ -1,5 +1,5 @@
 import { C } from './Constant';
-
+import logo from '../assets/image/logo.png';
 const NAV_ITEMS = [
   {
     group: 'Principal',
@@ -53,21 +53,54 @@ export default function Sidebar({ page, setPage, open, mobile, mobileSide, setMo
     }}>
 
       {/* Logo */}
-      <div style={{ padding: isVisible ? '22px 20px 18px' : '22px 0 18px',
-        display: 'flex', alignItems: 'center', gap: '12px',
+      <div style={{ 
+        padding: isVisible ? '22px 20px 18px' : '22px 0 18px',
+        display: 'flex', 
+        alignItems: 'center', 
+        gap: '12px',
         justifyContent: isVisible ? 'flex-start' : 'center',
-        borderBottom: '1px solid rgba(255,255,255,0.12)', flexShrink: 0 }}>
-        <div style={{ width:'36px', height:'36px', borderRadius:'12px',
-          background:'rgba(255,255,255,0.15)', display:'flex', alignItems:'center',
-          justifyContent:'center', fontSize:'1.2rem', flexShrink:0 }}>
-          💊
+        borderBottom: '1px solid rgba(255,255,255,0.12)', 
+        flexShrink: 0 
+      }}>
+        
+        <div style={{ 
+          width:'36px', 
+          height:'36px', 
+          borderRadius:'12px',
+          background:'rgba(255,255,255,0.15)', 
+          display:'flex', 
+          alignItems:'center',
+          justifyContent:'center', 
+          flexShrink:0,
+          overflow: 'hidden' // important pour que l'image reste dans le carré
+        }}>
+          <img 
+            src={logo}  // 🔥 mets ici le chemin de ton image
+            alt="logo"
+            style={{ 
+              width: '100%', 
+              height: '100%', 
+              objectFit: 'cover' // pour bien ajuster l’image
+            }} 
+          />
         </div>
+
         {isVisible && (
           <div>
-            <p style={{ color:'#fff', fontFamily:'Georgia,serif', fontSize:'1rem', fontWeight:700, lineHeight:1.1 }}>
-              PharmaPack
+            <p style={{ 
+              color:'#fff', 
+              fontFamily:'Georgia,serif', 
+              fontSize:'1rem', 
+              fontWeight:500, 
+              lineHeight:1.1 
+            }}>
+              DABAKH GLOBAL DISTRIBUTION
             </p>
-            <p style={{ color:'rgba(255,255,255,0.55)', fontSize:'0.7rem', marginTop:'2px' }}>
+            <p style={{ 
+              color:'rgba(255,255,255,0.55)', 
+              fontSize:'0.7rem', 
+              marginTop:'2px' 
+            }}>
               Administration
             </p>
           </div>

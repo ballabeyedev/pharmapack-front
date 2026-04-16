@@ -1,0 +1,251 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 🎯 Palette retravaillée (plus douce et naturelle) */
+:root {
+  --green-deep: #0d5c3a;
+  --green-mid: #1a7d52;
+  --green-bright: #22a96b;
+  --green-pale: #f4fbf7;
+  --white: #ffffff;
+  --text-dark: #082417;
+  --text-muted: #6b9a84;
+  --border: #cfe8dc;
+}
+
+/* 🌿 Background moins “plat” */
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: linear-gradient(135deg, #eef9f3, #f8fffb);
+  min-height: 100vh;
+}
+
+/* 📦 Container */
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* 💳 Card (plus réaliste) */
+.login-card {
+  width: 100%;
+  max-width: 440px;
+  background: var(--white);
+  border-radius: 20px;
+  padding: 42px 38px;
+  position: relative;
+
+  box-shadow:
+    0 18px 40px rgba(13, 92, 58, 0.12),
+    0 4px 12px rgba(13, 92, 58, 0.06);
+
+  border: 1px solid rgba(0,0,0,0.03);
+
+  animation: fadeUp 0.5s ease;
+}
+
+/* 🔥 petit détail premium */
+.login-card::before {
+  content: "";
+  position: absolute;
+  width: 60px;
+  height: 4px;
+  background: var(--green-bright);
+  top: 0;
+  left: 40px;
+  border-radius: 0 0 6px 6px;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* 🧾 Header */
+.form-header {
+  margin-bottom: 28px;
+}
+
+.form-eyebrow {
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--green-bright);
+  margin-bottom: 8px;
+}
+
+.form-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.8rem;
+  color: var(--text-dark);
+  line-height: 1.25;
+}
+
+.form-title span {
+  color: var(--green-mid);
+}
+
+.form-desc {
+  margin-top: 6px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* 🧱 Fields */
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.field label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+/* ✏️ Inputs */
+.input-wrapper {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+}
+
+.input-wrapper input {
+  width: 100%;
+  padding: 12px 14px 12px 40px;
+  border-radius: 10px;
+  border: 1.4px solid var(--border);
+  background: #f9fdfb;
+  font-size: 0.9rem;
+  color: var(--text-dark);
+  transition: all 0.25s ease;
+  outline: none;
+}
+
+.input-wrapper input::placeholder {
+  color: #9cbdaf;
+}
+
+/* focus plus naturel */
+.input-wrapper input:focus {
+  border-color: var(--green-mid);
+  background: white;
+  box-shadow: 0 0 0 3px rgba(34, 169, 107, 0.1);
+}
+
+/* 👁 bouton */
+.eye-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--text-muted);
+}
+
+/* 🔗 Forgot */
+.field-row {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 22px;
+}
+
+.forgot-link {
+  font-size: 0.82rem;
+  color: var(--green-mid);
+  text-decoration: none;
+}
+
+.forgot-link:hover {
+  text-decoration: underline;
+}
+
+/* 🚀 Bouton */
+.btn-submit {
+  width: 100%;
+  padding: 13px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+
+  background: linear-gradient(135deg, #1a7d52, #1ec777);
+
+  transition: all 0.2s ease;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-submit:hover:not(:disabled) {
+  transform: translateY(-1px) scale(1.01);
+}
+
+.btn-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* ⚠️ erreur plus soft */
+.error-banner {
+  background: #fff5f5;
+  border: 1px solid #ffd6d6;
+  color: #a94442;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  margin-bottom: 16px;
+}
+
+/* ⏳ spinner */
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.4);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* 📱 Responsive */
+@media (max-width: 480px) {
+  .login-card {
+    padding: 30px 22px;
+  }
+
+  .form-title {
+    font-size: 1.6rem;
+  }
+}

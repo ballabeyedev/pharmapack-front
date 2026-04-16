@@ -202,6 +202,22 @@ export const getPharmacies = async () => {
   }
 };
 
+export const getPharmacieById = async (id) => {
+  const name = "Detail Pharmacie";
+  try {
+    logRequest(name);
+
+    const res = await api.get(`/admin/detail-pharmacies/${id}`);
+
+    logResponse(name, res);
+    return res.data;
+
+  } catch (error) {
+    logError(name, error);
+    throw error;
+  }
+};
+
 export const getPharmaciesEnAttente = async () => {
   const name = "Pharmacies en attente";
   try {

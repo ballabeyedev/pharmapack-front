@@ -162,7 +162,6 @@ export default function DashboardPage({ setPage }) {
         flexWrap: 'wrap', gap: '16px', animation: 'fadeUp 0.4s both',
       }}>
         <div>
-          <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.82rem', marginBottom: '6px' }}>Bonjour 👋</p>
           <h2 style={{ color: '#fff', fontFamily: 'Georgia, serif',
             fontSize: 'clamp(1.1rem, 3vw, 1.55rem)', fontWeight: 700 }}>
             Bienvenue sur PharmaPack Admin

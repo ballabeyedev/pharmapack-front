@@ -7,40 +7,20 @@ import api, { setAuth, clearAuth, getAuth } from './api'
  */
 export const login = async ({ email, mot_de_passe }) => {
   try {
-    // Log avant l'appel
-    console.log('=== LOGIN REQUEST ===');
-    console.log('Email:', email);
-    console.log('Mot de passe:', mot_de_passe);
-
-    // Afficher l'URL finale utilisée par Axios
-    console.log('Request URL:', api.defaults.baseURL + '/auth/login');
-
-    const response = await api.post('/auth/login', {
-      email,
-      mot_de_passe,
-    });
-
-    console.log('=== LOGIN RESPONSE ===');
-    console.log(response.data);
-
+    const response = await api.post('/auth/login', { email, mot_de_passe });
     const { token, utilisateur } = response.data;
-
     setAuth(token, utilisateur);
-
     return utilisateur;
   } catch (error) {
-    // Log de l'erreur complète
     console.error('=== LOGIN ERROR ===');
     if (error.response) {
       console.error('Status:', error.response.status);
       console.error('Data:', error.response.data);
-    } else if (error.request) {
-      console.error('Request sent but no response:', error.request);
-    } else {
-      console.error('Other error:', error.message);
     }
 
-    throw handleApiError(error);
+    // ✅ Throw un objet Error standard avec le message dedans
+    const message = handleApiError(error);
+    return Promise.reject(message);
   }
 };
 
@@ -104,4 +84,68 @@ export const validateLoginForm = (email, password) => {
     errors.password = 'Minimum 6 caractères';
   }
   return errors;
+};
+
+
+export const passwordOublie = async (email) => {
+  const name = "Mot de passe oublié";
+
+  try {
+    console.log("🚀 [REQUEST]", name);
+    console.log("📧 Email envoyé :", email);
+
+    const res = await api.post('/auth/forgot-password', { email });
+
+    console.log("📨 [RESPONSE STATUS]", res.status);
+    console.log("📨 [RESPONSE DATA]", res.data);
+
+    return res.data;
+
+  } catch (error) {
+    console.error("❌ [ERROR]", name);
+
+    if (error.response) {
+      console.error("📛 Status :", error.response.status);
+      console.error("📛 Data backend :", error.response.data);
+    } else if (error.request) {
+      console.error("📡 No response from server :", error.request);
+    } else {
+      console.error("⚠️ Error message :", error.message);
+    }
+
+    throw error;
+  }
+};
+
+export const resetPassword = async (token, newPassword) => {
+  const name = "Réinitialisation mot de passe";
+
+  try {
+    console.log("🚀 [REQUEST]", name);
+    console.log("🔑 Token :", token);
+    console.log("🔒 New password length :", newPassword?.length);
+
+    const res = await api.post(`/auth/reset-password/${token}`, {
+      newPassword
+    });
+
+    console.log("📨 [RESPONSE STATUS]", res.status);
+    console.log("📨 [RESPONSE DATA]", res.data);
+
+    return res.data;
+
+  } catch (error) {
+    console.error("❌ [ERROR]", name);
+
+    if (error.response) {
+      console.error("📛 Status :", error.response.status);
+      console.error("📛 Data backend :", error.response.data);
+    } else if (error.request) {
+      console.error("📡 No response from server :", error.request);
+    } else {
+      console.error("⚠️ Error message :", error.message);
+    }
+
+    throw error;
+  }
 };
