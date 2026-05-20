@@ -398,7 +398,7 @@ export const supprimerCategorie = async (id) => {
   }
 };
 
-/* ========================= NIVEAUX ========================= */ 
+/* ========================= NIVEAUX ========================= */
 
 export const getNiveaux = async () => {
   const name = "Liste Niveaux";
@@ -615,4 +615,45 @@ export const modifierProfil = async (id, data) => {
     logError(name, error);
     throw error;
   }
-}; 
+};
+
+/* ========================= CONVERSIONS ========================= */
+
+export const getConversions = async () => {
+  const name = "Liste Conversions";
+  try {
+    logRequest(name);
+    const res = await api.get('/admin/liste-conversions');
+    logResponse(name, res);
+    return res.data;
+  } catch (error) {
+    logError(name, error);
+    throw error;
+  }
+};
+
+export const validerConversion = async (id) => {
+  const name = "Valider Conversion";
+  try {
+    logRequest(name, { id });
+    const res = await api.put(`/admin/valider-conversions/${id}`);
+    logResponse(name, res);
+    return res.data;
+  } catch (error) {
+    logError(name, error);
+    throw error;
+  }
+};
+
+export const rejeterConversion = async (id, motif) => {
+  const name = "Rejeter Conversion";
+  try {
+    logRequest(name, { id, motif });
+    const res = await api.put(`/admin/rejeter-conversions/${id}`, { motif });
+    logResponse(name, res);
+    return res.data;
+  } catch (error) {
+    logError(name, error);
+    throw error;
+  }
+};

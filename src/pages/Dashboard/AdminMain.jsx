@@ -1,44 +1,55 @@
 import { useState } from 'react';
-import Sidebar           from '../../components/Sidebar';
-import Navbar            from '../../components/Navbar';
-import DashboardPage     from '../Dashboard/Dashboard';
-import PharmaciesPage    from '../Pharmacies/PharmaciesList';
-import OrdersPage        from '../Commandes/CommandesList';
-import AvantagesPage     from '../Avantages/AvantagesList';
-import ProduitsPage      from '../Produits/ProduitList.jsx';
-import ProfilPage        from '../Profils/Profils.jsx';
-import CategoriesPage    from '../Categories/CategoriesList.jsx';
-import NiveauxPage       from '../Niveaux/NiveauxList.jsx';
-import AdminsPage       from '../Admin/AdminList.jsx';
+import Sidebar from '../../components/Sidebar';
+import Navbar from '../../components/Navbar';
+import DashboardPage from '../Dashboard/Dashboard';
+import PharmaciesPage from '../Pharmacies/PharmaciesList';
+import OrdersPage from '../Commandes/CommandesList';
+import AvantagesPage from '../Avantages/AvantagesList';
+import ProduitsPage from '../Produits/ProduitList.jsx';
+import ProfilPage from '../Profils/Profils.jsx';
+import CategoriesPage from '../Categories/CategoriesList.jsx';
+import NiveauxPage from '../Niveaux/NiveauxList.jsx';
+import AdminsPage from '../Admin/AdminList.jsx';
+import ConversionsPage from '../Conversions/ConversionsList.jsx';
 
 
 /* ── Logout modal ─────────────────────────────────────────── */
 const LogoutModal = ({ onCancel, onConfirm }) => (
-  <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.45)', zIndex:999,
-    display:'flex', alignItems:'center', justifyContent:'center', padding:'16px' }}>
-    <div style={{ background:'#fff', borderRadius:'20px', padding:'36px 32px', maxWidth:'360px',
-      width:'100%', textAlign:'center', boxShadow:'0 24px 60px rgba(0,0,0,0.18)',
-      animation:'fadeUp 0.3s ease both' }}>
-      <div style={{ width:'60px', height:'60px', background:'#fee2e2', borderRadius:'50%',
-        display:'flex', alignItems:'center', justifyContent:'center',
-        margin:'0 auto 16px', fontSize:'1.6rem' }}>🚪</div>
-      <h3 style={{ fontFamily:'Georgia,serif', fontSize:'1.2rem', color:'#0a2e1e', marginBottom:'8px' }}>
+  <div style={{
+    position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.45)', zIndex: 999,
+    display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px'
+  }}>
+    <div style={{
+      background: '#fff', borderRadius: '20px', padding: '36px 32px', maxWidth: '360px',
+      width: '100%', textAlign: 'center', boxShadow: '0 24px 60px rgba(0,0,0,0.18)',
+      animation: 'fadeUp 0.3s ease both'
+    }}>
+      <div style={{
+        width: '60px', height: '60px', background: '#fee2e2', borderRadius: '50%',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        margin: '0 auto 16px', fontSize: '1.6rem'
+      }}>🚪</div>
+      <h3 style={{ fontFamily: 'Georgia,serif', fontSize: '1.2rem', color: '#0a2e1e', marginBottom: '8px' }}>
         Déconnexion
       </h3>
-      <p style={{ color:'#6b7280', fontSize:'0.88rem', marginBottom:'24px' }}>
+      <p style={{ color: '#6b7280', fontSize: '0.88rem', marginBottom: '24px' }}>
         Êtes-vous sûr de vouloir vous déconnecter de PharmaPack ?
       </p>
-      <div style={{ display:'flex', gap:'12px' }}>
+      <div style={{ display: 'flex', gap: '12px' }}>
         <button onClick={onCancel}
-          style={{ flex:1, padding:'12px', border:'1.5px solid #d1d5db', borderRadius:'12px',
-            background:'#fff', fontSize:'0.9rem', cursor:'pointer', color:'#374151',
-            fontWeight:500, fontFamily:'inherit' }}>
+          style={{
+            flex: 1, padding: '12px', border: '1.5px solid #d1d5db', borderRadius: '12px',
+            background: '#fff', fontSize: '0.9rem', cursor: 'pointer', color: '#374151',
+            fontWeight: 500, fontFamily: 'inherit'
+          }}>
           Annuler
         </button>
         <button onClick={onConfirm}
-          style={{ flex:1, padding:'12px', border:'none', borderRadius:'12px',
-            background:'linear-gradient(135deg,#dc2626,#ef4444)',
-            color:'#fff', fontSize:'0.9rem', fontWeight:700, cursor:'pointer', fontFamily:'inherit' }}>
+          style={{
+            flex: 1, padding: '12px', border: 'none', borderRadius: '12px',
+            background: 'linear-gradient(135deg,#dc2626,#ef4444)',
+            color: '#fff', fontSize: '0.9rem', fontWeight: 700, cursor: 'pointer', fontFamily: 'inherit'
+          }}>
           Déconnecter
         </button>
       </div>
@@ -48,10 +59,10 @@ const LogoutModal = ({ onCancel, onConfirm }) => (
 
 /* ── Main ─────────────────────────────────────────────────── */
 export default function AdminDashboard() {
-  const [page,        setPage]       = useState('dashboard');
-  const [sidebarOpen, setSidebar]    = useState(true);
-  const [mobileSide,  setMobileSide] = useState(false);
-  const [logoutModal, setLogout]     = useState(false);
+  const [page, setPage] = useState('dashboard');
+  const [sidebarOpen, setSidebar] = useState(true);
+  const [mobileSide, setMobileSide] = useState(false);
+  const [logoutModal, setLogout] = useState(false);
 
   const handleLogout = () => {
     // Replace with: logout() from auth.service then navigate('/')
@@ -59,15 +70,16 @@ export default function AdminDashboard() {
   };
 
   const pages = {
-    dashboard:    <DashboardPage    setPage={setPage} />,
-    pharmacies:   <PharmaciesPage />,
-    orders:       <OrdersPage />,
-    avantages:    <AvantagesPage />,
-    produits:     <ProduitsPage />,
-    profil:       <ProfilPage />,
-    categories:   <CategoriesPage />,
-    niveaux:      <NiveauxPage />,
-    admins:      <AdminsPage />, 
+    dashboard: <DashboardPage setPage={setPage} />,
+    pharmacies: <PharmaciesPage />,
+    orders: <OrdersPage />,
+    avantages: <AvantagesPage />,
+    produits: <ProduitsPage />,
+    profil: <ProfilPage />,
+    categories: <CategoriesPage />,
+    niveaux: <NiveauxPage />,
+    admins: <AdminsPage />,
+    conversions: <ConversionsPage />,
   };
 
   return (
@@ -95,7 +107,7 @@ export default function AdminDashboard() {
         }
       `}</style>
 
-      <div style={{ display:'flex', minHeight:'100vh', background:'#f4faf7' }}>
+      <div style={{ display: 'flex', minHeight: '100vh', background: '#f4faf7' }}>
 
         {/* Desktop sidebar */}
         <div className="hide-mobile">
@@ -109,7 +121,7 @@ export default function AdminDashboard() {
         {/* Mobile overlay */}
         {mobileSide && (
           <div onClick={() => setMobileSide(false)}
-            style={{ position:'fixed', inset:0, background:'rgba(0,0,0,0.4)', zIndex:200 }} />
+            style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.4)', zIndex: 200 }} />
         )}
 
         {/* Mobile sidebar */}
@@ -123,13 +135,13 @@ export default function AdminDashboard() {
         </div>
 
         {/* Content area */}
-        <div style={{ flex:1, display:'flex', flexDirection:'column', minWidth:0, overflow:'hidden' }}>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, overflow: 'hidden' }}>
           <Navbar
             page={page}
             sidebarOpen={sidebarOpen} setSidebar={setSidebar}
             mobileSide={mobileSide} setMobileSide={setMobileSide}
           />
-          <main style={{ flex:1, padding:'clamp(14px, 3vw, 28px)', overflowY:'auto', overflowX:'hidden' }}>
+          <main style={{ flex: 1, padding: 'clamp(14px, 3vw, 28px)', overflowY: 'auto', overflowX: 'hidden' }}>
             {pages[page] || <DashboardPage setPage={setPage} />}
           </main>
         </div>
